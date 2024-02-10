@@ -1,6 +1,52 @@
+Here's the corrected README for "LeanUtils: A Lightweight Utility Package for Repositories", with the tutorial sections reorganized as requested:
+
+---
+
+# LeanUtils: A Lightweight Utility Package for Repositories
+
+**LeanUtils** is designed to be a streamlined utility package that caters to the common needs across various repositories. Our goal is to provide a lean version of essential utilities, making your development process smoother and more efficient.
+
+## Table of Contents
+
+- [LeanUtils: A Lightweight Utility Package for Repositories](#leanutils-a-lightweight-utility-package-for-repositories)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+    - [Installation](#installation)
+    - [Quick Start Guide](#quick-start-guide)
+  - [Tutorials](#tutorials)
+    - [How to Publish a Package with Poetry](#how-to-publish-a-package-with-poetry)
+      - [1. Install Poetry](#1-install-poetry)
+      - [2. Initialize and Configure Poetry](#2-initialize-and-configure-poetry)
+      - [3. Version Your Package](#3-version-your-package)
+      - [4. Build Your Package](#4-build-your-package)
+      - [5. Publish Your Package to PyPI](#5-publish-your-package-to-pypi)
+      - [6. Update Your Package](#6-update-your-package)
+      - [Additional Tips:](#additional-tips)
+    - [Initial Setup in the New Environment](#initial-setup-in-the-new-environment)
+    - [Managing Frequent Updates](#managing-frequent-updates)
+    - [Recommendations for Efficient Workflow](#recommendations-for-efficient-workflow)
+
+---
+
+## Getting Started
+
+### Installation
+
+(Instructions on how to install your package. This could include the command to install via pip, requirements, and any initial setup needed.)
+
+### Quick Start Guide
+
+(A brief guide or example showing how to quickly get up and running with your package. This could include basic usage examples or a simple tutorial.)
+
+---
+
+## Tutorials
+
+### How to Publish a Package with Poetry
+
 To deploy and manage a Python package on PyPI, with your code hosted on GitHub, follow these refined steps:
 
-### 1. Install Poetry
+#### 1. Install Poetry
 
 Poetry is a Python dependency management and packaging tool. Begin by installing it via your terminal:
 
@@ -10,7 +56,7 @@ curl -sSL https://install.python-poetry.org | python3 -
 
 Ensure Poetry's path is included in your system's PATH to use it globally.
 
-### 2. Initialize and Configure Poetry
+#### 2. Initialize and Configure Poetry
 
 - **Initialize Poetry**: In your project's root directory (e.g., `/home/sam/github/myrepoutils`), run the following to create a `pyproject.toml` file. This file is essential for Poetry to recognize and manage your project.
 
@@ -35,7 +81,7 @@ Ensure Poetry's path is included in your system's PATH to use it globally.
   pytest = "^6.2.4"
   ```
 
-### 3. Version Your Package
+#### 3. Version Your Package
 
 Adhere to Semantic Versioning (SemVer), which uses a `MAJOR.MINOR.PATCH` format:
 
@@ -45,7 +91,7 @@ Adhere to Semantic Versioning (SemVer), which uses a `MAJOR.MINOR.PATCH` format:
 
 Based on your changes, update your version accordingly in the `pyproject.toml` file.
 
-### 4. Build Your Package
+#### 4. Build Your Package
 
 With your `pyproject.toml` set up, build your package using Poetry:
 
@@ -55,7 +101,7 @@ poetry build
 
 This command creates a distributable package in the `dist` folder.
 
-### 5. Publish Your Package to PyPI
+#### 5. Publish Your Package to PyPI
 
 - **Create a PyPI Account**: Ensure you have an account on [PyPI](https://pypi.org/).
 - **Publish**: Use Poetry to publish your package to PyPI. When prompted, enter your PyPI credentials:
@@ -64,7 +110,7 @@ This command creates a distributable package in the `dist` folder.
   poetry publish
   ```
 
-### 6. Update Your Package
+#### 6. Update Your Package
 
 To release new versions:
 
@@ -77,7 +123,7 @@ To release new versions:
    poetry publish
    ```
 
-### Additional Tips:
+#### Additional Tips:
 
 - Verify your package name is unique on PyPI.
 - Test your package locally before publishing.
