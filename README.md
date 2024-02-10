@@ -1,96 +1,111 @@
-To create and deploy a Python package on PyPI using Poetry with CI/CD on GitHub, follow these steps:
+To create a package and automate its release to PyPI using Poetry, GitHub Actions, and CI/CD on Ubuntu, follow these steps:
 
-### 1. Install Poetry
+1. **Initialize Poetry**: Navigate to your project directory (`/home/sam/github/myrepoutils`) and initialize Poetry if you haven't already. This creates a `pyproject.toml` file, which is crucial for Poetry to manage your package and its dependencies.
 
-First, ensure Poetry is installed on your system. You can install Poetry by running:
+   ```bash
+   cd /home/sam/github/myrepoutils
+   poetry init
+   ```
 
-```bash
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
-```
+2. **Configure `pyproject.toml`**: Ensure your `pyproject.toml` includes details about your package such as name, version, description, authors, and dependencies. Here's an example snippet:
 
-After installation, add Poetry to your PATH if it's not already done by the installer script.
+   ```toml
+   [tool.poetry]
+   name = "myrepoutils"
+   version = "0.1.0"
+   description = ""
+   authors = ["Your Name <you@example.com>"]
 
-### 2. Configure Your Package
+   [tool.poetry.dependencies]
+   python = "^3.8"
 
-Create a new directory for your package and navigate into it. Then, initialize a new Poetry project:
+   [tool.poetry.dev-dependencies]
+   pytest = "^6.2.4"
+   ```
 
-```bash
-mkdir mypackage
-cd mypackage
-poetry init
-```
+3. **Set Up GitHub Actions for CI/CD**:
 
-Follow the prompts to define your package's dependencies and metadata.
+   - Inside the `.github/workflows` directory, create a YAML file, e.g., `ci_cd.yml`.
+   - Define steps for installing Poetry, caching dependencies, running tests, and publishing to PyPI only when a new tag is pushed. Use the examples from Source 0 and adapt them to include installing dependencies and running tests. Here's a simplified version:
 
-### 3. Add Your Function
+     ```yaml
+     name: Python Package CI/CD
 
-Create a directory for your module inside the project folder, and add your Python file with the function:
+     on:
+       push:
+         branches:
+           - main
+         tags:
+           - "v*"
 
-```bash
-mkdir mypackage
-touch mypackage/__init__.py  # make it a package
-```
+     jobs:
+       build:
+         runs-on: ubuntu-latest
 
-Edit `mypackage/__init__.py` to add your function:
+         steps:
+           - uses: actions/checkout@v2
 
-```python
-def my_function():
-    return "I'm the output of your function"
-```
+           - name: Set up Python
+             uses: actions/setup-python@v2
+             with:
+               python-version: 3.8
 
-### 4. Build Your Package
+           - name: Install Poetry
+             run: |
+               curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+               echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
-You can build your package with Poetry to ensure everything is set up correctly:
+           - name: Install dependencies
+             run: poetry install
 
-```bash
-poetry build
-```
+           - name: Run tests
+             run: poetry run pytest
 
-### 5. Set Up GitHub Repository
+           - name: Publish to PyPI
+             if: startsWith(github.ref, 'refs/tags/')
+             run: poetry publish --build -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+             env:
+               PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+     ```
 
-- Create a new repository on GitHub and push your project there.
-- Ensure you have a `.gitignore` file that includes the `dist/` directory and any other unnecessary files.
+   - Ensure you replace `PYPI_TOKEN` with your actual PyPI token added to GitHub Secrets.
 
-### 6. Configure CI/CD with GitHub Actions
+4. **Add PyPI Token to GitHub Secrets**:
 
-Create a GitHub Actions workflow in your repository to automate testing, building, and publishing your package to PyPI. Under your repository, navigate to the "Actions" tab and set up a new workflow, or create a `.github/workflows/publish-to-pypi.yml` file with the following content:
+   - Go to your repository on GitHub.
+   - Navigate to Settings > Secrets.
+   - Click on "New repository secret".
+   - Name it `PYPI_TOKEN` and paste your PyPI API token.
 
-```yaml
-name: Publish Python Package
+5. **Push Changes and Tag**:
+   According to SemVer, the version number format is `MAJOR.MINOR.PATCH`, with:
 
-on:
-  release:
-    types: [published]
+   - `MAJOR` version when you make incompatible API changes,
+   - `MINOR` version when you add functionality in a backward-compatible manner, and
+   - `PATCH` version when you make backward-compatible bug fixes [0][4].
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.x"
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build
-      - name: Build package
-        run: python -m build
-      - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@v1
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
-```
+Based on the changes you've made since the last release, decide whether the next version will increment the major, minor, or patch number. If you are adding new features without breaking backward compatibility, it's a minor update. If you're fixing bugs without adding new features or breaking anything, it's a patch update. If the changes are not backward compatible, it's a major update [0][3][4].
 
-### 7. Configure PyPI API Token
+6. **Tagging in Git**: Once you've determined the next version number, use the `git tag` command to tag the release. If you are tagging version 1.0.0, you would use:
 
-- Generate a PyPI API token from your PyPI account.
-- Add the token as a secret in your GitHub repository settings (`Settings > Secrets`). Name the secret `PYPI_API_TOKEN`.
+   ```bash
+   git tag v1.0.0
+   ```
 
-### 8. Release Your Package
+   Prefixing the version number with a `v` is a common practice but not required by SemVer. However, it's widely recognized and recommended for clarity [0][3].
 
-- When you're ready to release your package, create a new release in your GitHub repository.
-- The GitHub Actions workflow you configured will automatically build and publish your package to PyPI when you publish the release.
+7. **Push Tags to Remote Repository**: After tagging your release locally, push the tag to your remote repository to share it with others. Use the command:
 
-This setup uses GitHub Actions for CI/CD, automating the process of testing, building, and publishing your Python package to PyPI. Make sure to adjust the workflow according to your project's specific needs, such as running tests before publishing.
+   ```bash
+   git push origin v1.0.0
+   ```
+
+   Replace `v1.0.0` with your actual version number. If you want to push all tags at once, you can use `git push --tags` [3].
+
+8. **Automating with CI/CD**: If you're using Continuous Integration/Continuous Deployment (CI/CD) pipelines, you can automate tagging and releasing based on specific triggers, such as a merge into the main branch. Tools like GitHub Actions, GitLab CI/CD, and others can be configured to handle versioning based on commit messages or other criteria, making the process more streamlined and reducing the potential for human error [1][2].
+
+9. **Versioning Best Practices**: Always update your `README.md`, documentation, and any other relevant information to reflect the new version and changes made. This helps users and contributors understand what has changed and how it might affect them [4].
+
+By following Semantic Versioning rules and using Git tags, you can make your project's versioning clear, predictable, and useful for users and contributors. Remember, the key to successful versioning is consistency and clear communication of changes.
+
+GitHub Actions will now automatically test your package and publish it to PyPI whenever you push a new tag that follows the version pattern. This setup streamlines the process, ensuring your package is always up-to-date and tested before release.

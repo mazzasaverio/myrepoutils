@@ -1,0 +1,14 @@
+/home/sam/github/myrepoutils
+├── .github
+│   └── workflows
+├── .gitignore
+├── LICENSE
+├── myrepoutils
+│   └── __init__.py
+├── README.md
+
+
+=== Content of /home/sam/github/myrepoutils/myrepoutils/__init__.py ===
+
+def my_function():
+    return "I'm the output of your function"
