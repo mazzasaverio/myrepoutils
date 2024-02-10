@@ -2,13 +2,13 @@ Here's the corrected README for "LeanUtils: A Lightweight Utility Package for Re
 
 ---
 
-# LeanUtils: A Lightweight Utility Package for Repositories
+# MyRepoUtils: A Lightweight Utility Package for Repositories
 
-**LeanUtils** is designed to be a streamlined utility package that caters to the common needs across various repositories. Our goal is to provide a lean version of essential utilities, making your development process smoother and more efficient.
+**MyRepoUtils** is designed to be a streamlined utility package that caters to the common needs across various repositories. Our goal is to provide a lean version of essential utilities, making your development process smoother and more efficient.
 
 ## Table of Contents
 
-- [LeanUtils: A Lightweight Utility Package for Repositories](#leanutils-a-lightweight-utility-package-for-repositories)
+- [MyRepoUtils: A Lightweight Utility Package for Repositories](#myrepoutils-a-lightweight-utility-package-for-repositories)
   - [Table of Contents](#table-of-contents)
   - [Getting Started](#getting-started)
     - [Installation](#installation)
