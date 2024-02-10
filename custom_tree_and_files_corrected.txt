@@ -1,9 +1,6 @@
 /home/sam/github/myrepoutils
 ├── code_report.py
 ├── custom_tree_and_files_corrected.txt
-├── .github
-│   └── workflows
-│       └── ci_cd.yml
 ├── .gitignore
 ├── LICENSE
 ├── myrepoutils
@@ -11,44 +8,32 @@
 ├── pyproject.toml
 └── README.md
 
-4 directories, 8 files
+2 directories, 7 files
 
 
 === Content of /home/sam/github/myrepoutils/code_report.py ===
 
 Code present but not reported for space reasons
 
+=== Content of /home/sam/github/myrepoutils/pyproject.toml ===
+
+[tool.poetry]
+name = "myrepoutils"
+version = "0.1.4"
+description = ""
+authors = ["mazzasaverio <saverio3107@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
 === Content of /home/sam/github/myrepoutils/myrepoutils/__init__.py ===
 
 def my_function():
     return "I'm the output of your function"
-
-
-=== Content of /home/sam/github/myrepoutils/.github/workflows/ci_cd.yml ===
-
-name: Publish Python Package
-
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v3
-        with:
-          python-version: "3.11"
-      - name: Install dependencies
-        run: |
-          poetry install
-      - name: Build and publish
-        env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          poetry build
-          poetry publish

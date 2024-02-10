@@ -46,6 +46,7 @@ def append_file_content_to_output(
                     # or file_name.endswith(".sh")
                     # or file_name.endswith(".ini")
                     # or file_name.endswith(".md")
+                    or file_name.endswith(".toml")
                     or file_name.endswith(".env.sample")
                     or file_name.endswith(".yaml")
                     or file_name.endswith(".yml")
