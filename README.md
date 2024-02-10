@@ -105,7 +105,3 @@ Based on the changes you've made since the last release, decide whether the next
 8. **Automating with CI/CD**: If you're using Continuous Integration/Continuous Deployment (CI/CD) pipelines, you can automate tagging and releasing based on specific triggers, such as a merge into the main branch. Tools like GitHub Actions, GitLab CI/CD, and others can be configured to handle versioning based on commit messages or other criteria, making the process more streamlined and reducing the potential for human error [1][2].
 
 9. **Versioning Best Practices**: Always update your `README.md`, documentation, and any other relevant information to reflect the new version and changes made. This helps users and contributors understand what has changed and how it might affect them [4].
-
-By following Semantic Versioning rules and using Git tags, you can make your project's versioning clear, predictable, and useful for users and contributors. Remember, the key to successful versioning is consistency and clear communication of changes.
-
-GitHub Actions will now automatically test your package and publish it to PyPI whenever you push a new tag that follows the version pattern. This setup streamlines the process, ensuring your package is always up-to-date and tested before release.
